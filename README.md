@@ -1,5 +1,10 @@
 # Chhote Lal Property Dealer — Website
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frishabhpal549-web%2Fchhote-lal-property-dealer)
+
+- **GitHub Repository:** [https://github.com/rishabhpal549-web/chhote-lal-property-dealer](https://github.com/rishabhpal549-web/chhote-lal-property-dealer)
+- **Live Vercel 1-Click Deploy:** [Click here to Deploy on Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Frishabhpal549-web%2Fchhote-lal-property-dealer)
+
 A modern, responsive, and functional real estate property-dealing website for **Chhote Lal Property Dealer**, located in Varanasi, Uttar Pradesh, India. Built strictly following the official Brand Guidelines, visual hierarchy, honest disclaimers, and authentic business data.
 
 ---
