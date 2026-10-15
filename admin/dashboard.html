@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>एडमिन डैशबोर्ड (Admin Dashboard) | Chhote Lal Property Dealer</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+</head>
+<body style="background-color: #F1F5F9;">
+
+  <!-- Admin Topbar -->
+  <header class="admin-topbar">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <a href="../index.html" class="brand-logo">
+        <img src="../images/logo.svg" alt="Logo" class="logo-icon-svg" style="width:36px; height:36px;">
+        <div class="brand-text">
+          <span class="brand-title" style="font-size:1rem;">CHHOTE LAL <span>ADMIN</span></span>
+        </div>
+      </a>
+      <span class="admin-badge" style="background:rgba(214,168,79,0.2); color:var(--gold-primary);">Authorized Portal</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:14px;">
+      <a href="../index.html" target="_blank" class="btn btn-outline-white btn-sm" title="View live website">
+        वेबसाइट देखें &nearr;
+      </a>
+      <button type="button" id="admin-logout-btn" class="btn btn-phone btn-sm" style="color:#FCA5A5; border-color:#EF4444;">
+        लॉगआउट (Logout)
+      </button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 32px; padding-bottom: 60px;">
+    
+    <!-- Welcome & Action Row -->
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom: 28px;">
+      <div>
+        <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--navy-primary); margin-bottom: 4px;">
+          कंट्रोल पैनल (Dashboard)
+        </h1>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          प्रॉपर्टीज लिस्टिंग, खरीदार पूछताछ और विक्रेता सबमिशन का प्रबंधन करें।
+        </p>
+      </div>
+
+      <button type="button" id="open-add-property-modal-btn" class="btn btn-gold btn-md">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>नई प्रॉपर्टी जोड़ें (Add Property)</span>
+      </button>
+    </div>
+
+    <!-- KPI Stats Cards -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <div>
+          <div id="stat-total-props" class="stat-val">0</div>
+          <div class="stat-label">कुल प्रॉपर्टीज</div>
+        </div>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold-hover)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <div id="stat-avail-props" class="stat-val" style="color:var(--status-available);">0</div>
+          <div class="stat-label">उपलब्ध (Available)</div>
+        </div>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--status-available)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <div id="stat-buyers" class="stat-val">0</div>
+          <div class="stat-label">खरीदार पूछताछ (Enquiries)</div>
+        </div>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy-surface)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+
+      <div class="stat-card">
+        <div>
+          <div id="stat-sellers" class="stat-val">0</div>
+          <div class="stat-label">विक्रेता सबमिशन (Sellers)</div>
+        </div>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy-primary)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-tabs">
+      <div class="admin-tab-btn active" data-tab="properties">प्रॉपर्टी प्रबंधन (Properties)</div>
+      <div class="admin-tab-btn" data-tab="buyer-enquiries">खरीदार पूछताछ (Buyer Enquiries)</div>
+      <div class="admin-tab-btn" data-tab="seller-enquiries">विक्रेता सबमिशन (Seller Submissions)</div>
+      <div class="admin-tab-btn" data-tab="settings">डेटाबेस एवं बैकएंड सेटिंग्स (Settings)</div>
+    </div>
+
+    <!-- Panel 1: Properties Table -->
+    <div id="tab-properties" class="admin-tab-panel">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>फोटो</th>
+              <th>शीर्षक व विवरण</th>
+              <th>प्रकार</th>
+              <th>कीमत</th>
+              <th>स्थिति (Status)</th>
+              <th style="text-align:right;">कार्रवाई</th>
+            </tr>
+          </thead>
+          <tbody id="admin-properties-table-body">
+            <!-- Dynamically populated via admin.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel 2: Buyer Enquiries -->
+    <div id="tab-buyer-enquiries" class="admin-tab-panel" style="display:none;">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>दिनांक</th>
+              <th>ग्राहक का नाम व फ़ोन</th>
+              <th>श्रेणी व इलाका</th>
+              <th>बजट</th>
+              <th>संदेश / प्रॉपर्टी संदर्भ</th>
+              <th>स्थिति</th>
+              <th>नोट्स</th>
+            </tr>
+          </thead>
+          <tbody id="admin-buyer-enquiries-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel 3: Seller Submissions -->
+    <div id="tab-seller-enquiries" class="admin-tab-panel" style="display:none;">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>दिनांक</th>
+              <th>मालिक का नाम व फ़ोन</th>
+              <th>प्रकार व इलाका</th>
+              <th>क्षेत्रफल</th>
+              <th>अपेक्षित कीमत</th>
+              <th>फोटो</th>
+              <th>स्थिति</th>
+            </tr>
+          </thead>
+          <tbody id="admin-seller-enquiries-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Panel 4: Database & Storage Settings -->
+    <div id="tab-settings" class="admin-tab-panel" style="display:none;">
+      <div class="form-card" style="max-width:800px;">
+        <h3 style="font-size:1.3rem; color:var(--navy-primary); margin-bottom:12px;">Supabase PostgreSQL एवं स्टोरेज विन्यास</h3>
+        <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:20px;">
+          यह वेबसाइट Supabase PostgreSQL, Supabase Auth एवं Supabase Storage के लिए पूर्ण रूप से तैयार है। वर्तमान में यह सुरक्षित स्थानीय स्टोरेज मोड में सभी प्रॉपर्टीज और पूछताछ को तुरंत सेव कर रही है।
+        </p>
+
+        <div style="background:#F8FAFC; border:1px solid var(--border-grey); border-radius:var(--radius-md); padding:16px; margin-bottom:20px;">
+          <h4 style="font-size:0.95rem; font-weight:700; color:var(--navy-primary); margin-bottom:8px;">डेटाबेस तालिकाओं की संरचना (Tables Included):</h4>
+          <ul style="margin-left:20px; font-size:0.88rem; color:var(--text-charcoal); line-height:1.6;">
+            <li><code>properties</code>: आईडी, शीर्षक, प्रकार, क्षेत्रफल, कीमत, इलाका, सुविधाएं, स्थिति, फोटो एरे, टाइमस्टैम्प</li>
+            <li><code>buyer_enquiries</code>: आईडी, नाम, फ़ोन, पसंदीदा प्रकार, बजट, संदेश, स्थिति, आंतरिक नोट्स</li>
+            <li><code>seller_enquiries</code>: आईडी, मालिक नाम, फ़ोन, प्रकार, स्थान, माप, अपेक्षित मूल्य, फोटो, स्थिति</li>
+          </ul>
+        </div>
+
+        <div style="font-size:0.85rem; color:var(--text-muted);">
+          विस्तृत SQL स्कीमा फ़ाइल <code>supabase/schema.sql</code> और <code>supabase/storage-rules.sql</code> में उपलब्ध कराई गई है।
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Add / Edit Property Modal -->
+  <div id="property-modal" class="admin-modal">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <h3 id="modal-title-text" class="admin-modal-title">नई प्रॉपर्टी जोड़ें (Add Property)</h3>
+        <button type="button" id="close-property-modal-btn" style="font-size:1.8rem; color:var(--text-muted);">&times;</button>
+      </div>
+
+      <form id="admin-property-form">
+        <input type="hidden" id="modal-prop-id" value="">
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" for="modal-prop-title">प्रॉपर्टी शीर्षक (Title) *</label>
+          <input type="text" id="modal-prop-title" class="form-control" required placeholder="उदा. बाबतपुर रोड के पास आवासीय कॉर्नर प्लॉट">
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-type">प्रॉपर्टी श्रेणी *</label>
+            <select id="modal-prop-type" class="form-control" required>
+              <option value="Plot">Plot (प्लॉट)</option>
+              <option value="House">House (मकान)</option>
+              <option value="Land">Land (जमीन)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-locality">इलाका / क्षेत्र (Locality) *</label>
+            <input type="text" id="modal-prop-locality" class="form-control" required placeholder="उदा. बाबतपुर रोड, वाराणसी">
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-area">क्षेत्रफल (Area) *</label>
+            <input type="number" id="modal-prop-area" class="form-control" required placeholder="1200" step="any">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-area-unit">क्षेत्रफल इकाई (Unit) *</label>
+            <select id="modal-prop-area-unit" class="form-control">
+              <option value="sq.ft (वर्ग फीट)">sq.ft (वर्ग फीट)</option>
+              <option value="Biswa">बिस्वा (Biswa)</option>
+              <option value="Bigha">बीघा (Bigha)</option>
+              <option value="Gaj">गज (Gaj)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Conditional Bedrooms for House -->
+        <div id="modal-house-fields" class="form-grid-2" style="margin-bottom:14px; display:none; background:#F8FAFC; padding:12px; border-radius:6px; border:1px solid var(--border-grey);">
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-bedrooms">कमरे (Bedrooms BHK)</label>
+            <input type="number" id="modal-prop-bedrooms" class="form-control" placeholder="उदा. 3">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-bathrooms">शौचालय (Bathrooms)</label>
+            <input type="number" id="modal-prop-bathrooms" class="form-control" placeholder="उदा. 2">
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-price">कीमत (Numeric Rupees)</label>
+            <input type="number" id="modal-prop-price" class="form-control" placeholder="उदा. 2500000">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-price-text">कीमत प्रदर्शन पाठ (Display Text)</label>
+            <input type="text" id="modal-prop-price-text" class="form-control" placeholder="उदा. 25 लाख या कीमत पूछें">
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label class="form-checkbox-label">
+            <input type="checkbox" id="modal-prop-price-request">
+            <span>'कीमत पूछें (Price on Request)' के रूप में चिह्नित करें</span>
+          </label>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-status">स्थिति (Status)</label>
+            <select id="modal-prop-status" class="form-control">
+              <option value="Available">Available (उपलब्ध)</option>
+              <option value="Under Discussion">Under Discussion (बातचीत जारी)</option>
+              <option value="Sold">Sold (बिक चुका है)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal-prop-image-url">प्रॉपर्टी फोटो URL या पथ</label>
+            <input type="text" id="modal-prop-image-url" class="form-control" placeholder="images/plot-sample.jpg">
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label class="form-checkbox-label">
+            <input type="checkbox" id="modal-prop-illustrative" checked>
+            <span>सांकेतिक डिजाइन पूर्वावलोकन (Illustrative Design Preview Tag) प्रदर्शित करें</span>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label" for="modal-prop-facilities">पुष्टीकृत सुविधाएं (अल्पविराम से अलग करें)</label>
+          <input type="text" id="modal-prop-facilities" class="form-control" placeholder="उदा. 30 फीट सड़क, बिजली उपलब्ध, मीठा पानी">
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label" for="modal-prop-desc">विस्तृत विवरण (Description)</label>
+          <textarea id="modal-prop-desc" class="form-control" rows="3" placeholder="प्रॉपर्टी के बारे में मुख्य बातें..."></textarea>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <button type="button" id="cancel-property-modal-btn" class="btn btn-navy btn-md">रद्द करें</button>
+          <button type="submit" class="btn btn-gold btn-md">सुरक्षित करें (Save Property)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/db.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
